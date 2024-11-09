@@ -13,6 +13,7 @@ import java.util.Date;
 @Data
 @Builder @NoArgsConstructor @AllArgsConstructor
 public class BankAccountRequestDTO {
+    private String id;
     private Double balance ;
     private String currency;
     private AccountType type;

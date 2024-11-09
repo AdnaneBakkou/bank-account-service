@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 import org.sid.bankaccountservice_.dto.BankAccountRequestDTO;
 import org.sid.bankaccountservice_.dto.BankAccountResponseDTO;
 import org.sid.bankaccountservice_.entities.BankAccount;
+import org.sid.bankaccountservice_.entities.Customer;
 import org.sid.bankaccountservice_.repositories.BankAccountRepository;
+import org.sid.bankaccountservice_.repositories.CustomerRepository;
 import org.sid.bankaccountservice_.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -25,6 +27,8 @@ public class BankAccountGraphQlController {
     @Autowired
 
     private AccountService accountService;
+    @Autowired
+    private CustomerRepository customerRepository;
     @QueryMapping
     public List<BankAccount> accountsList(){
        return bankAccountRepository.findAll();
@@ -38,6 +42,21 @@ public class BankAccountGraphQlController {
     @MutationMapping
     public BankAccountResponseDTO addAccount(@Argument BankAccountRequestDTO bankAccount){
         return accountService.addAccount(bankAccount) ;
+    }
+    @MutationMapping
+    public BankAccountResponseDTO updateAccount(@Argument String id, @Argument BankAccountRequestDTO bankAccount){
+        return accountService.updateAccount(id, bankAccount) ;
+    }
+
+    @MutationMapping
+    public Boolean  deleteAccount(@Argument String id){
+        bankAccountRepository.deleteById(id);
+        return true;
+    }
+
+    @QueryMapping
+    public List<Customer> customers(){
+        return customerRepository.findAll();
     }
 }
 
